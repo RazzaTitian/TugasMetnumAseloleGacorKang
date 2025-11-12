@@ -40,7 +40,7 @@ def hitung_romberg(f, a, b, level_target=2):
           f"level R({level_target},{level_target})")
     print("-" * 50)
 
-    # --- Level 0: Kolom Pertama (Aturan Trapesium) ---
+    # Level 0: Kolom Pertama (Aturan Trapesium)
     # Ini adalah R(k, 0)
     
     print("\n--- Kolom Pertama (m=0): Aturan Trapesium ---")
@@ -50,7 +50,7 @@ def hitung_romberg(f, a, b, level_target=2):
         R[k][0] = trapesium(f, a, b, n_segmen)
         print(f"R({k}, 0) [n={n_segmen:2d}]: {R[k][0]:.10f}")
 
-    # --- Level 1 & 2: Kolom Ekstrapolasi ---
+    # Level 1 & 2: Kolom Ekstrapolasi
     # m adalah level ekstrapolasi (kolom)
     for m in range(1, level_target + 1):
         print(f"\n--- Kolom Ekstrapolasi (m={m}) [O(h^{2*(m+1)})] ---")
@@ -79,7 +79,7 @@ def hitung_romberg(f, a, b, level_target=2):
     print("=" * 50 + "\n")
 
 
-# --- Definisi Fungsi ---
+# Definisi Fungsi
 
 def f1(x):
     """Soal 1: cos(x)"""
@@ -91,7 +91,7 @@ def f2(x):
     return x**2
 
 
-# --- Eksekusi Perhitungan ---
+# Eksekusi Perhitungan
 
 # 1. Menjalankan Soal 1: integral(cos(x)) dari 0 sampai pi/2
 print("===== SOAL 1: integral(cos(x), 0, pi/2) =====")

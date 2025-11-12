@@ -2,7 +2,7 @@ import numpy as np
 from scipy.integrate import romberg
 
 
-# --- Definisi Fungsi ---
+# Definisi Fungsi
 
 def f1(x):
     """Soal 1: cos(x)"""
@@ -14,12 +14,12 @@ def f2(x):
     return x**2
 
 
-# --- Eksekusi Kode ---
+# Eksekusi Kode
 
 print("MENGGUNAKAN 'scipy.integrate.romberg' UNTUK EFISIENSI")
 print("=" * 60 + "\n")
 
-# --- Soal 1 ---
+# Soal 1
 print("--- Soal 1: integral(cos(x), 0, pi/2) ---")
 # Menghitung integral secara langsung
 # Scipy akan otomatis menentukan level yang diperlukan
@@ -37,7 +37,7 @@ romberg(f1, 0, np.pi/2, divmax=2, show=True)
 
 print("\n" + "=" * 60 + "\n")
 
-# --- Soal 2 ---
+# Soal 2
 print("--- Soal 2: integral(x^2, 0, 1) ---")
 # Menghitung integral secara langsung
 hasil_f2 = romberg(f2, 0, 1)
