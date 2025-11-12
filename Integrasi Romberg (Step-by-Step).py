@@ -103,3 +103,5 @@ print("\n")
 # 2. Menjalankan Soal 2: integral(x^2) dari 0 sampai 1
 print("===== SOAL 2: integral(x^2, 0, 1) =====")
 hitung_romberg(f2, 0, 1, level_target=2)
+
+# cara step by ste[p

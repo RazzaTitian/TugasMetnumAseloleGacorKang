@@ -50,3 +50,5 @@ romberg(f2, 0, 1, divmax=2, show=True)
 print("\n" + "=" * 60)
 print("Catatan: Scipy berhenti lebih awal (Romberg N=2) untuk Soal 2")
 print("karena konvergensinya tercapai sangat cepat (hasilnya eksak).")
+
+# cara cepet
