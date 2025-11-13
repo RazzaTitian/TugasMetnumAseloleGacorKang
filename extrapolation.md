@@ -1,0 +1,131 @@
+print(f"--- Menghitung R_2,2 untuk {f.__name__} ---\n")
+
+# BAGIAN 1: "Dengan Trapezoidal Rule R_0,0..."
+# Menghitung 3 nilai Trapesium (Kolom 1)
+
+print("1. Menghitung nilai Trapesium (Kolom 1):")
+
+# Hitung R_0,0 (n=1)
+h0 = b - a
+R00 = 0.5 * h0 * (f(a) + f(b))
+print(f"   R_0,0 (n=1) = {R00:.10f}")
+
+# Hitung R_1,0 (n=2) secara efisien dari R_0,0
+h1 = h0 / 2.0
+R10 = 0.5 * R00 + h1 * f(a + h1)
+print(f"   R_1,0 (n=2) = {R10:.10f}")
+
+# Hitung R_2,0 (n=4) secara efisien dari R_1,0
+h2 = h1 / 2.0
+sum_f = f(a + h2) + f(a + 3*h2) # Titik baru: 1h dan 3h
+R20 = 0.5 * R10 + h2 * sum_f
+print(f"   R_2,0 (n=4) = {R20:.10f}")
+
+# BAGIAN 2: "...minimal 3 level sampai R_2,2"
+# Menghitung nilai ekstrapolasi (Kolom 2 & 3)
+
+print("\n2. Menghitung nilai Ekstrapolasi (Kolom 2 & 3):")
+
+# Hitung R_1,1 (Kolom 2)
+R11 = (4.0 * R10 - R00) / 3.0
+print(f"   R_1,1 (Kolom 2) = {R11:.10f}")
+
+# Hitung R_2,1 (Kolom 2)
+R21 = (4.0 * R20 - R10) / 3.0
+print(f"   R_2,1 (Kolom 2) = {R21:.10f}")
+
+# Hitung R_2,2 (Kolom 3) - Ini target kita
+# R(2,2) = (16*R(2,1) - R(1,1)) / 15
+R22 = (16.0 * R21 - R11) / 15.0
+print(f"   R_2,2 (Kolom 3) = {R22:.10f}")
+
+# HASIL AKHIR
+print(f"\nHASIL AKHIR (R_2,2): {R22:.10f}")
+print("\n")
+
+return R22
+
+# Penjelasan Kode Extrapolation (Romberg Integration)
+
+## Deskripsi Umum
+Program ini mengimplementasikan **Romberg Integration** untuk menghitung integral numerik dengan akurasi tinggi. Metode ini menggunakan **Richardson Extrapolation** pada hasil **Trapezoidal Rule** untuk meningkatkan ketelitian.
+
+## Struktur Program
+
+### 1. Import Library
+```python
+import numpy as np
+```
+- Menggunakan NumPy untuk fungsi matematika seperti `cos()` dan konstanta `pi`
+
+### 2. Fungsi Utama: `compute_R22(f, a, b)`
+
+#### Parameter:
+- `f`: Fungsi yang akan diintegralkan
+- `a`: Batas bawah integral
+- `b`: Batas atas integral
+
+#### Proses Perhitungan:
+
+##### **BAGIAN 1: Trapezoidal Rule (Kolom 1)**
+Menghitung nilai integral dengan aturan trapesium pada berbagai tingkat pembagian:
+
+**R_0,0 (n=1):**
+```python
+h0 = b - a
+R00 = 0.5 * h0 * (f(a) + f(b))
+```
+- Menggunakan 1 interval (2 titik)
+- Formula: `(b-a)/2 * [f(a) + f(b)]`
+
+**R_1,0 (n=2):**
+```python
+h1 = h0 / 2.0
+R10 = 0.5 * R00 + h1 * f(a + h1)
+```
+- Menggunakan 2 interval (3 titik)
+- Efisien: menggunakan hasil R_0,0 dan menambahkan titik tengah
+
+**R_2,0 (n=4):**
+```python
+h2 = h1 / 2.0
+sum_f = f(a + h2) + f(a + 3*h2)
+R20 = 0.5 * R10 + h2 * sum_f
+```
+- Menggunakan 4 interval (5 titik)
+- Menambahkan 2 titik baru: pada h/4 dan 3h/4
+
+##### **BAGIAN 2: Richardson Extrapolation (Kolom 2 & 3)**
+Meningkatkan akurasi dengan menggabungkan hasil trapesium:
+
+**Kolom 2 (m=1):**
+```python
+R11 = (4.0 * R10 - R00) / 3.0
+R21 = (4.0 * R20 - R10) / 3.0
+```
+- Formula: `R(n,m) = (4^m * R(n,m-1) - R(n-1,m-1)) / (4^m - 1)`
+- Untuk m=1: `(4*R(n,0) - R(n-1,0)) / 3`
+
+**Kolom 3 (m=2) - TARGET:**
+```python
+R22 = (16.0 * R21 - R11) / 15.0
+```
+- Formula: `(16*R(2,1) - R(1,1)) / 15`
+- Ini adalah hasil akhir dengan akurasi tertinggi (O(h^6))
+
+### 3. Fungsi-Fungsi Soal
+
+**Soal 1:**
+```python
+def f1(x):
+    return np.cos(x)
+```
+- Integral: ∫cos(x)dx dari 0 sampai π/2
+- Hasil analitik: sin(π/2) - sin(0) = 1
+
+**Soal 2:**
+```python
+def f2(x):
+    return x**2
+```
+- Integral: ∫x²dx
